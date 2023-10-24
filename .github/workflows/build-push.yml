@@ -6,7 +6,7 @@ on:
       context:
         required: false
         type: string
-        default: '.'
+        default: "."
       ecr_repository:
         required: true
         type: string
