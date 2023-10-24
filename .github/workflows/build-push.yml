@@ -10,6 +10,9 @@ on:
       ecr_repository:
         required: true
         type: string
+      registry_aws_account_id:
+        required: true
+        type: string
       aws_region:
         required: true
         type: string
@@ -40,6 +43,8 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
+      with:
+        registries: "${{ inputs.registry_aws_account_id }}"
 
     - name: Set short sha
       id: short-sha
