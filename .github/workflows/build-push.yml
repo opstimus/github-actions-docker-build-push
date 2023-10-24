@@ -21,6 +21,9 @@ on:
         required: true
       aws_secret_access_key:
         required: true
+    outputs:
+      image_tag:
+        value: ${{ jobs.build-and-push.outputs.image_tag }}
 
 jobs:
   build-and-push:
