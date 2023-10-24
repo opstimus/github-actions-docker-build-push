@@ -64,6 +64,7 @@ jobs:
         context: ${{ inputs.context }}
         push: false
         tags: ${{ inputs.ecr_repository }}:${{ env.IMAGE_TAG }}
+        provenance: false
 
     - name: Push Docker image
       id: push
@@ -73,3 +74,4 @@ jobs:
         context: ${{ inputs.context }}
         push: true
         tags: ${{ inputs.ecr_repository }}:${{ env.IMAGE_TAG }}
+        provenance: false
