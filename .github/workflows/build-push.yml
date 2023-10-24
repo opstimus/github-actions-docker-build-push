@@ -54,7 +54,8 @@ jobs:
     - name: Set tag
       id: set-tag
       run: |
-        echo "IMAGE_TAG=${{ github.ref_name }}-${{ env.SHA_SHORT }}" >> $GITHUB_ENV
+        IMAGE_TAG=${{ github.ref_name }}-${{ env.SHA_SHORT }}
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
         echo "image_tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
     - name: Build Docker image
