@@ -16,11 +16,9 @@ on:
       aws_region:
         required: true
         type: string
-    secrets:
-      aws_access_key_id:
+      aws_ecr_iam_role_arn:
         required: true
-      aws_secret_access_key:
-        required: true
+        type: string
     outputs:
       image_tag:
         value: ${{ jobs.build-and-push.outputs.image_tag }}
@@ -37,9 +35,10 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.aws_access_key_id }}
-        aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
         aws-region: ${{ inputs.aws_region }}
+        role-to-assume: ${{ inputs.aws_ecr_iam_role_arn }}
+        role-session-name: build
+        role-skip-session-tagging: true
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
