@@ -22,7 +22,7 @@ on:
     outputs:
       image_tag:
         value: ${{ jobs.build-and-push.outputs.image_tag }}
-
+  
 jobs:
   build-and-push:
     runs-on: ubuntu-latest

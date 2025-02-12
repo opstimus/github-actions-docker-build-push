@@ -1,0 +1,37 @@
+name: Commit Image Tag
+
+on:
+  workflow_call:
+    inputs:
+      git_repository:
+        required: true
+        type: string
+      git_branch:
+        required: true
+        type: string
+      file_path:
+        required: true
+        type: string
+      image_tag:
+        required: true
+        type: string
+
+jobs:
+  commit-image-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.git_repository }}
+          token: ${{ secrets.GITHUB_PAT }}
+          ref: ${{ inputs.git_branch }}
+
+      - name: commit image tag
+        run: |
+          echo ${{ inputs.image_tag }} > ${{ inputs.file_path }}
+          git config --global user.name "{{ secrets.GITHUB_USERNAME }}"
+          git config --global user.email "{{ secrets.GITHUB_EMAIL }}"
+          git add ${{ inputs.file_path }}
+          git commit -m "Update image tag to ${{ inputs.image_tag }}"
+          git push origin ${{ inputs.git_branch }}
