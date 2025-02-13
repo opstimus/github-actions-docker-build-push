@@ -15,6 +15,9 @@ on:
       image_tag:
         required: true
         type: string
+    secrets:
+      token:
+        required: true
 
 jobs:
   commit-image-tag:
@@ -24,14 +27,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git_repository }}
-          token: ${{ secrets.GITHUB_PAT }}
+          token: ${{ secrets.token }}
           ref: ${{ inputs.git_branch }}
 
       - name: commit image tag
         run: |
           echo ${{ inputs.image_tag }} > ${{ inputs.file_path }}
-          git config --global user.name "{{ secrets.GITHUB_USERNAME }}"
-          git config --global user.email "{{ secrets.GITHUB_EMAIL }}"
+          git config --global user.name "username"
+          git config --global user.email "username@email.com"
           git add ${{ inputs.file_path }}
           git commit -m "Update image tag to ${{ inputs.image_tag }}"
           git push origin ${{ inputs.git_branch }}

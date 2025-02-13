@@ -78,4 +78,3 @@ jobs:
         push: true
         tags: ${{ inputs.ecr_repository }}:${{ env.IMAGE_TAG }}
         provenance: false
-
