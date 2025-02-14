@@ -32,7 +32,7 @@ jobs:
 
       - name: commit image tag
         run: |
-          echo ${{ inputs.image_tag }} > ${{ inputs.file_path }}
+          jq '.image_tag = "${{ inputs.image_tag }}"' ${{ inputs.file_path }} > temp.json && mv temp.json ${{ inputs.file_path }}
           git config --global user.name "DevOps"
           git config --global user.email "DevOps@email.com"
           git add ${{ inputs.file_path }}
