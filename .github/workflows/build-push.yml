@@ -23,6 +23,9 @@ on:
         required: false
         type: string
         default: ""
+    secrets:
+      GITHUB_TOKEN:
+        required: false
 
     outputs:
       image_tag:
@@ -74,6 +77,8 @@ jobs:
         tags: ${{ inputs.ecr_repository }}:${{ env.IMAGE_TAG }}
         provenance: false
         build-args: ${{ inputs.build_args }}
+        secrets: |
+          "github_token=${{ secrets.GITHUB_TOKEN }}"
 
     - name: Push Docker image
       id: push
@@ -85,3 +90,5 @@ jobs:
         tags: ${{ inputs.ecr_repository }}:${{ env.IMAGE_TAG }}
         provenance: false
         build-args: ${{ inputs.build_args }}
+        secrets: |
+          "github_token=${{ secrets.GITHUB_TOKEN }}"
