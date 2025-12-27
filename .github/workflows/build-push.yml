@@ -23,9 +23,6 @@ on:
         required: false
         type: string
         default: ""
-    secrets:
-      GITHUB_TOKEN:
-        required: false
 
     outputs:
       image_tag:
