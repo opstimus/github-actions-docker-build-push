@@ -32,9 +32,11 @@ jobs:
 
       - name: commit image tag
         run: |
-          jq '.image_tag = "${{ inputs.image_tag }}"' ${{ inputs.file_path }} > temp.json && mv temp.json ${{ inputs.file_path }}
-          git config --global user.name "DevOps"
-          git config --global user.email "DevOps@email.com"
+          echo "Updating image tag to ${{ inputs.image_tag }}"
+          git config --global user.name "Umar Arafath"
+          git config --global user.email "umararafath18@gmail.com"
+          sed -i.bak 's|\(image_tag[[:space:]]*=[[:space:]]*\)".*"|\1"${{ inputs.image_tag }}"|' ${{ inputs.file_path }}
+          rm -f ${{ inputs.file_path }}.bak
           git add ${{ inputs.file_path }}
           git commit -m "Update image tag to ${{ inputs.image_tag }}"
           git push origin ${{ inputs.git_branch }}
