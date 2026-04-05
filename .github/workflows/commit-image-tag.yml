@@ -15,19 +15,37 @@ on:
       image_tag:
         required: true
         type: string
+      github_app_id:
+        required: true
+        type: string
     secrets:
-      token:
+      github_app_private_key:
         required: true
 
 jobs:
   commit-image-tag:
     runs-on: ubuntu-latest
     steps:
+      - name: Parse repository owner and name
+        id: repo-info
+        run: |
+          echo "owner=$(echo '${{ inputs.git_repository }}' | cut -d'/' -f1)" >> $GITHUB_OUTPUT
+          echo "repo=$(echo '${{ inputs.git_repository }}' | cut -d'/' -f2)" >> $GITHUB_OUTPUT
+
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ inputs.github_app_id }}
+          private-key: ${{ secrets.github_app_private_key }}
+          owner: ${{ steps.repo-info.outputs.owner }}
+          repositories: ${{ steps.repo-info.outputs.repo }}
+
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.git_repository }}
-          token: ${{ secrets.token }}
+          token: ${{ steps.app-token.outputs.token }}
           ref: ${{ inputs.git_branch }}
 
       - name: commit image tag
