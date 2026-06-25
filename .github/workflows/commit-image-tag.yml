@@ -42,7 +42,7 @@ jobs:
           repositories: ${{ steps.repo-info.outputs.repo }}
 
       - name: Checkout target repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{ inputs.git_repository }}
           token: ${{ steps.app-token.outputs.token }}
